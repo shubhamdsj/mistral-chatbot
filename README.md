@@ -2,6 +2,10 @@
 
 
 
+🌐 Live Demo: https://mistral-chatbot-production.up.railway.app/static/index.html
+
+
+
 A conversational AI chatbot built with Mistral's API and FastAPI backend. This project demonstrates real-world integration of large language models into a full-stack web application.
 
 
@@ -42,41 +46,41 @@ A conversational AI chatbot built with Mistral's API and FastAPI backend. This p
 
 1\. Clone the repository
 
-&nbsp;  git clone https://github.com/shubhamdsj/mistral-chatbot.git
+   git clone https://github.com/shubhamdsj/mistral-chatbot.git
 
-&nbsp;  cd mistral-chatbot
+   cd mistral-chatbot
 
 
 
 2\. Create a virtual environment
 
-&nbsp;  python -m venv venv
+   python -m venv venv
 
-&nbsp;  venv\\Scripts\\activate
+   venv\\Scripts\\activate
 
 
 
 3\. Install dependencies
 
-&nbsp;  pip install fastapi uvicorn mistralai python-dotenv
+   pip install fastapi uvicorn mistralai python-dotenv
 
 
 
 4\. Create a .env file in the root folder
 
-&nbsp;  MISTRAL\_API\_KEY=your\_mistral\_api\_key\_here
+   MISTRAL\_API\_KEY=your\_mistral\_api\_key\_here
 
 
 
 5\. Run the server
 
-&nbsp;  uvicorn main:app --reload
+   uvicorn main:app --reload
 
 
 
 6\. Open your browser and go to
 
-&nbsp;  http://127.0.0.1:8000/static/index.html
+   http://127.0.0.1:8000/static/index.html
 
 
 
