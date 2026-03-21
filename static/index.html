@@ -2,36 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mistral Chatbot</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: Arial, sans-serif;
             background: #f0f0f0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100dvh;
-            overflow: hidden;
+            height: 100vh;
+            margin: 0;
         }
         .chat-container {
             background: white;
-            width: 100%;
-            max-width: 700px;
-            height: 100dvh;
+            width: 500px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            height: 600px;
         }
         .chat-header {
             background: #f97316;
             color: white;
             padding: 16px;
+            border-radius: 12px 12px 0 0;
             font-weight: bold;
             font-size: 18px;
-            flex-shrink: 0;
         }
         .chat-messages {
             flex: 1;
@@ -48,6 +46,15 @@
             font-size: 14px;
             line-height: 1.6;
         }
+        .bot-message p { margin: 4px 0; }
+        .bot-message h3, .bot-message h4 { margin: 6px 0; }
+        .bot-message ul, .bot-message ol { margin: 4px 0; padding-left: 20px; }
+        .bot-message code {
+            background: #e0e0e0;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
         .user-message {
             background: #f97316;
             color: white;
@@ -58,22 +65,11 @@
             color: #333;
             align-self: flex-start;
         }
-        .bot-message p { margin: 4px 0; }
-        .bot-message h3, .bot-message h4 { margin: 6px 0; }
-        .bot-message ul, .bot-message ol { margin: 4px 0; padding-left: 20px; }
-        .bot-message code {
-            background: #e0e0e0;
-            padding: 2px 4px;
-            border-radius: 4px;
-            font-size: 13px;
-        }
         .chat-input {
             display: flex;
             padding: 12px;
             border-top: 1px solid #eee;
             gap: 8px;
-            flex-shrink: 0;
-            background: white;
         }
         input {
             flex: 1;
@@ -145,14 +141,3 @@
     </script>
 </body>
 </html>
-```
-
-After saving:
-```
-git add .
-```
-```
-git commit -m "Fix responsive design"
-```
-```
-git push
