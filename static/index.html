@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Mistral Chatbot</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,7 +44,16 @@
             border-radius: 18px;
             max-width: 80%;
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.6;
+        }
+        .bot-message p { margin: 4px 0; }
+        .bot-message h3, .bot-message h4 { margin: 6px 0; }
+        .bot-message ul, .bot-message ol { margin: 4px 0; padding-left: 20px; }
+        .bot-message code {
+            background: #e0e0e0;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 13px;
         }
         .user-message {
             background: #f97316;
@@ -78,9 +88,7 @@
             cursor: pointer;
             font-size: 14px;
         }
-        button:hover {
-            background: #ea6c0a;
-        }
+        button:hover { background: #ea6c0a; }
     </style>
 </head>
 <body>
@@ -105,19 +113,12 @@
 
             if (!userText) return;
 
-            // Show user message
-            messages.innerHTML += `
-                <div class="message user-message">${userText}</div>
-            `;
+            messages.innerHTML += `<div class="message user-message">${userText}</div>`;
             input.value = "";
 
-            // Show loading
-            messages.innerHTML += `
-                <div class="message bot-message" id="loading">Thinking...</div>
-            `;
+            messages.innerHTML += `<div class="message bot-message" id="loading">Thinking...</div>`;
             messages.scrollTop = messages.scrollHeight;
 
-            // Send to backend
             const response = await fetch("/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -126,36 +127,28 @@
 
             const data = await response.json();
 
-            // Remove loading and show reply
-document.getElementById("loading").remove();
-const formatted = data.reply
-    .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
-    .replace(/### (.*?)\n/g, '<h4 style="margin:4px 0">$1</h4>')
-    .replace(/## (.*?)\n/g, '<h3 style="margin:4px 0">$1</h3>')
-    .replace(/\*(.*?)\*/g, '<i>$1</i>')
-    .replace(/`(.*?)`/g, '<code style="background:#e0e0e0;padding:2px 4px;border-radius:4px">$1</code>')
-    .replace(/\n/g, '<br>');
-messages.innerHTML += `
-    <div class="message bot-message">${formatted}</div>
-`;
-```
-
-Save, then run:
-```
-git add .
-```
-```
-git commit -m "Improve markdown rendering"
-```
-```
-git push
+            document.getElementById("loading").remove();
+            const botDiv = document.createElement("div");
+            botDiv.className = "message bot-message";
+            botDiv.innerHTML = marked.parse(data.reply);
+            messages.appendChild(botDiv);
             messages.scrollTop = messages.scrollHeight;
         }
 
-        // Send message on Enter key
         document.getElementById("userInput").addEventListener("keypress", function(e) {
             if (e.key === "Enter") sendMessage();
         });
     </script>
 </body>
 </html>
+```
+
+**Save** (`Ctrl + S`) then:
+```
+git add .
+```
+```
+git commit -m "Add proper markdown rendering"
+```
+```
+git push
