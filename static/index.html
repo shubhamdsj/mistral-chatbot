@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shubham AI Assistant × Mistral Chatbot</title>
+    <title>Shubham AI Assistant  (Mistral Chatbot)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
     <style>
         body {
@@ -24,7 +24,6 @@
             height: 100dvh;
         }
         .chat-header {
-<<<<<<< HEAD
     background: linear-gradient(135deg, #1a1a2e, #f97316);
     color: white;
     padding: 18px 16px;
@@ -37,15 +36,6 @@
     align-items: center;
     gap: 8px;
 }
-=======
-            background: #f97316;
-            color: white;
-            padding: 16px;
-            border-radius: 12px 12px 0 0;
-            font-weight: bold;
-            font-size: 18px;
-        }
->>>>>>> parent of b8047ae (Imrove header design)
         .chat-messages {
             flex: 1;
             padding: 16px;
@@ -104,6 +94,16 @@
             font-size: 14px;
         }
         button:hover { background: #ea6c0a; } @media (max-width: 768px) { .chat-container { height: 100dvh; border-radius: 0; } body { padding: 0; align-items: stretch; } }
+        button:hover { background: #ea6c0a; } @media (max-width: 768px) { .chat-container { height: 100dvh; border-radius: 0; } body { padding: 0; align-items: stretch; } }
+
+@media (max-width: 768px) {
+    .chat-messages {
+        -webkit-overflow-scrolling: touch;
+    }
+    input {
+        font-size: 16px;
+    }
+}
     </style>
 </head>
 <body>
@@ -148,6 +148,11 @@
             botDiv.innerHTML = marked.parse(data.reply);
             messages.appendChild(botDiv);
             messages.scrollTop = messages.scrollHeight;
+            input.addEventListener("focus", function() {
+    setTimeout(() => {
+        messages.scrollTop = messages.scrollHeight;
+    }, 300);
+});
         }
 
         document.getElementById("userInput").addEventListener("keypress", function(e) {
