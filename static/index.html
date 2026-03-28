@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
     <title>Shubham AI Assistant  (Mistral Chatbot)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
     <style>
@@ -25,4 +24,140 @@
             height: 100dvh;
         }
         .chat-header {
-    background: linear-gradient(135deg, #1a1a2e
+    background: linear-gradient(135deg, #1a1a2e, #f97316);
+    color: white;
+    padding: 18px 16px;
+    border-radius: 12px 12px 0 0;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+        .chat-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .message {
+            padding: 10px 14px;
+            border-radius: 18px;
+            max-width: 80%;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .bot-message p { margin: 4px 0; }
+        .bot-message h3, .bot-message h4 { margin: 6px 0; }
+        .bot-message ul, .bot-message ol { margin: 4px 0; padding-left: 20px; }
+        .bot-message code {
+            background: #e0e0e0;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .user-message {
+            background: #f97316;
+            color: white;
+            align-self: flex-end;
+        }
+        .bot-message {
+            background: #f0f0f0;
+            color: #333;
+            align-self: flex-start;
+        }
+        .chat-input {
+            display: flex;
+            padding: 12px;
+            border-top: 1px solid #eee;
+            gap: 8px;
+        }
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            font-size: 14px;
+        }
+        button {
+            background: #f97316;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover { background: #ea6c0a; } @media (max-width: 768px) { .chat-container { height: 100dvh; border-radius: 0; } body { padding: 0; align-items: stretch; } }
+        button:hover { background: #ea6c0a; } @media (max-width: 768px) { .chat-container { height: 100dvh; border-radius: 0; } body { padding: 0; align-items: stretch; } }
+
+@media (max-width: 768px) {
+    .chat-messages {
+        -webkit-overflow-scrolling: touch;
+    }
+    input {
+        font-size: 16px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">✨ <span style="color:#FFD700; font-size:22px; font-weight:900; text-shadow: 0 0 10px rgba(255,215,0,0.8);">Shubham AI Assistant</span> <span style="color:white; font-size:16px; opacity:0.9;">× Mistral Chatbot</span></div>
+        <div class="chat-messages" id="messages">
+            <div class="message bot-message">
+                Hi! I am your <strong style="color:#f97316;">Shubham AI Assistant</strong> (Made by SHUBHAM MISHRA). How can I help you today?
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type a message..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const input = document.getElementById("userInput");
+            const messages = document.getElementById("messages");
+            const userText = input.value.trim();
+
+            if (!userText) return;
+
+            messages.innerHTML += `<div class="message user-message">${userText}</div>`;
+            input.value = "";
+
+            messages.innerHTML += `<div class="message bot-message" id="loading">Thinking...</div>`;
+            messages.scrollTop = messages.scrollHeight;
+
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userText })
+            });
+
+            const data = await response.json();
+
+            document.getElementById("loading").remove();
+            const botDiv = document.createElement("div");
+            botDiv.className = "message bot-message";
+            botDiv.innerHTML = marked.parse(data.reply);
+            messages.appendChild(botDiv);
+            messages.scrollTop = messages.scrollHeight;
+            input.addEventListener("focus", function() {
+    setTimeout(() => {
+        messages.scrollTop = messages.scrollHeight;
+    }, 300);
+});
+        }
+
+        document.getElementById("userInput").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") sendMessage();
+        });
+    </script>
+</body>
+</html>
